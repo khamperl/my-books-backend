@@ -5,6 +5,7 @@ import process from 'process'
 import { config as dotenvConfig } from 'dotenv'
 import { Book } from '../../modules/book/entities/book.entity'
 import { Author } from '../../modules/author/entities/author.entity'
+import { User } from '../../modules/user/entities/user.entity'
 
 dotenvConfig({ path: '.env.db' })
 const env = process.env.NODE_ENV ? process.env.NODE_ENV.toUpperCase() : 'UNKNOWN'
@@ -23,7 +24,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       username: process.env['DB_USER_' + env],
       password: process.env['DB_PASSWORD_' + env],
       database: process.env['DB_DATABASE_' + env],
-      entities: [Book, Author],
+      entities: [Book, Author, User],
       //migrations: ['dist/migrations/*{.ts,.js}'],
       //autoLoadEntities: true,
       synchronize: true,
