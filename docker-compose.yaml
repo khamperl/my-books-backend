@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  mariadb:
+    image: mariadb:10.6
+    container_name: mariadb_container
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mybooks
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/Users/klaushamperl/nextcloud/Workspace/00_Projects/00_Development/my_book_lib/mybooks_db
+volumes:
+  db-data:
