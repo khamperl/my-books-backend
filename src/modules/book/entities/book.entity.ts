@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
-import { Author } from '../../author/entities/author.entity'
+import { User } from '../../user/entities/user.entity'
 
 @Entity()
 export class Book {
@@ -18,8 +18,8 @@ export class Book {
   @Column({ type: 'int', nullable: true })
   pages: number
 
-  @ManyToOne(() => Author, (author: Author) => author.books)
-  author: Author
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  author: string
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   publisher: string
@@ -32,4 +32,10 @@ export class Book {
 
   @Column({ type: 'boolean', default: false })
   hardcover: boolean
+
+  @ManyToOne(() => User, (user) => user.books)
+  user: User
+
+  @ManyToOne(() => User, (user) => user.lendBooks)
+  userBorrowed: User
 }

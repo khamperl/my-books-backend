@@ -7,9 +7,13 @@ import { UpdateBookDto } from './dto/update-book.dto'
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
-  @Post()
-  async create(@Body() createBookDto: CreateBookDto, @Res() res: any) {
-    const newBook = await this.bookService.create(createBookDto)
+  @Post(':userId')
+  async create(
+    @Body() createBookDto: CreateBookDto,
+    @Param('userId') userId: string,
+    @Res() res: any
+  ) {
+    const newBook = await this.bookService.create(createBookDto, +userId)
     if (newBook) {
       res.status(HttpStatus.CREATED).json(newBook)
     } else {

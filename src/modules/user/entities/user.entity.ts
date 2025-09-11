@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Book } from '../../book/entities/book.entity'
 
 @Entity()
 export class User {
@@ -18,5 +19,15 @@ export class User {
   email: string
 
   @Column({ type: 'varchar', length: 255, nullable: false })
-  externalId7: string
+  externalId: string
+
+  @OneToMany(() => Book, (book) => book.user)
+  books: Book[]
+
+  @OneToMany(() => Book, (book) => book.userBorrowed)
+  lendBooks: Book[]
+
+  @ManyToMany(() => Book, { cascade: true })
+  @JoinTable()
+  booksRead: Book[]
 }

@@ -19,8 +19,9 @@ export class CreateBookDto {
   @IsOptional()
   pages?: number
 
-  @IsNumber()
-  authorId: number
+  @IsString()
+  @IsOptional()
+  author?: string
 
   @IsString()
   @MaxLength(255)

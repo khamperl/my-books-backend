@@ -1,26 +1,68 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
+import { InjectRepository } from '@nestjs/typeorm'
+import { User } from './entities/user.entity'
+import { Repository } from 'typeorm'
+import { BookService } from '../book/book.service'
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+    private bookService: BookService
+  ) {}
+  async create(createUserDto: CreateUserDto) {
+    return await this.userRepository.save(createUserDto)
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+    return await this.userRepository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    return await this.userRepository.findOneBy({ id })
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    return await this.userRepository.update(id, updateUserDto)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    return await this.userRepository.delete(id)
+  }
+
+  async userReadBook(userId: number, bookId: number) {
+    const book = await this.bookService.findOne(bookId)
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['booksRead']
+    })
+    if (!user || !book) {
+      throw new NotFoundException('Book or User not found')
+    }
+
+    if (!user.booksRead) {
+      user.booksRead = []
+    }
+
+    if (!user.booksRead.find((book) => book.id === bookId)) {
+      user.booksRead.push(book)
+    }
+
+    return await this.userRepository.save(user)
+  }
+
+  async getUserBooksRead(userId: number) {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['booksRead']
+    })
+
+    if (!user) {
+      throw new NotFoundException('Books read for User cannot be found')
+    }
+    return user.booksRead
   }
 }
