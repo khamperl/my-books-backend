@@ -35,7 +35,4 @@ export class Book {
 
   @ManyToOne(() => User, (user) => user.books)
   user: User
-
-  @ManyToOne(() => User, (user) => user.lendBooks)
-  userBorrowed: User
 }

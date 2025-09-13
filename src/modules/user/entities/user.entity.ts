@@ -1,4 +1,13 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn
+} from 'typeorm'
 import { Book } from '../../book/entities/book.entity'
 
 @Entity()
@@ -23,9 +32,6 @@ export class User {
 
   @OneToMany(() => Book, (book) => book.user)
   books: Book[]
-
-  @OneToMany(() => Book, (book) => book.userBorrowed)
-  lendBooks: Book[]
 
   @ManyToMany(() => Book, { cascade: true })
   @JoinTable()
