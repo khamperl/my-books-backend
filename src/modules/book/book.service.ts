@@ -5,12 +5,15 @@ import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Book } from './entities/book.entity'
 import { User } from '../user/entities/user.entity'
+import { BookType } from './entities/book-type.entity'
 
 @Injectable()
 export class BookService {
   constructor(
     @InjectRepository(Book)
     private readonly bookRepository: Repository<Book>,
+    @InjectRepository(BookType)
+    private readonly bookTypeRepository: Repository<BookType>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>
   ) {}
@@ -29,6 +32,10 @@ export class BookService {
 
   async findAll() {
     return await this.bookRepository.find()
+  }
+
+  async findAllTypes() {
+    return await this.bookTypeRepository.find()
   }
 
   async findOne(id: number) {

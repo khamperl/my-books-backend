@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, OneToOne } from 'typeorm'
 import { User } from '../../user/entities/user.entity'
+import { BookType } from './book-type.entity'
 
 @Entity()
 export class Book {
@@ -24,14 +25,20 @@ export class Book {
   @Column({ type: 'varchar', length: 255, nullable: true })
   publisher: string
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  publishedAt: string
+
   @Column({ type: 'varchar', length: 13, nullable: false })
   isbn: string
 
   @Column({ type: 'double', nullable: true })
   price: number
 
-  @Column({ type: 'boolean', default: false })
-  hardcover: boolean
+  @Column({ type: 'double', nullable: true })
+  rating: number
+
+  @ManyToOne(() => BookType, (bookType) => bookType.books)
+  type: BookType
 
   @ManyToOne(() => User, (user) => user.books)
   user: User

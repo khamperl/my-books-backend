@@ -25,6 +25,10 @@ export class UserService {
     return await this.userRepository.findOneBy({ id })
   }
 
+  async findOneByExtId(externalId: string) {
+    return await this.userRepository.findOneBy({ externalId })
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     return await this.userRepository.update(id, updateUserDto)
   }

@@ -44,6 +44,15 @@ export class UserController {
     }
   }
 
+  @Get('/ext/:id')
+  async findOneByExtId(@Param('id') id: string, @Res() res: any) {
+    const user = await this.userService.findOneByExtId(id)
+    if (user) {
+      res.status(HttpStatus.OK).json(user)
+    } else {
+      res.status(HttpStatus.NOT_FOUND).send('User cannot be found')
+    }
+  }
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto, @Res() res: any) {
     const updateUser = await this.userService.update(+id, updateUserDto)

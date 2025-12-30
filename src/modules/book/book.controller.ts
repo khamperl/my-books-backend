@@ -42,6 +42,16 @@ export class BookController {
     }
   }
 
+  @Get('/types')
+  async findAllTypes(@Res() res: any) {
+    const bookTypes = await this.bookService.findAllTypes()
+    if (bookTypes) {
+      res.status(HttpStatus.OK).json(bookTypes)
+    } else {
+      res.status(HttpStatus.NOT_FOUND).send('Book Types cannot be found')
+    }
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string, @Res() res: any) {
     const book = await this.bookService.findOne(+id)
