@@ -10,11 +10,12 @@ async function loadSettings() {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+  app.enableCors()
   app.setGlobalPrefix('/api/v1')
   app.useGlobalPipes(new ValidationPipe())
   app.useGlobalFilters(new HttpExeptionFilter())
 
-  await app.listen(process.env.PORT ?? 3000)
+  await app.listen(process.env.PORT ?? 8081)
 }
 loadSettings()
 bootstrap()

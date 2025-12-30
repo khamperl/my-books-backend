@@ -4,7 +4,8 @@ import { BookModule } from './modules/book/book.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { UserModule } from './modules/user/user.module'
-import { BorrowBooksModule } from './modules/borrow-books/borrow-books.module';
+import { BorrowBooksModule } from './modules/borrow-books/borrow-books.module'
+import { BookApiSearchModule } from './modules/book-api-search/book-api-search.module'
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { BorrowBooksModule } from './modules/borrow-books/borrow-books.module';
     }),
     BookModule,
     UserModule,
-    BorrowBooksModule
+    BorrowBooksModule,
+    BookApiSearchModule
   ],
   controllers: [],
   providers: [TypeOrmConfigService, ConfigService]
